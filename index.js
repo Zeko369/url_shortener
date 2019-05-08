@@ -1,36 +1,42 @@
 const express = require('express')
+// const logger = require('morgan');
 const app = express()
 const port = 3000
+const len = 3; // hash length
 
 let urls = [{url: 'www.google.com', slug: 'g', visits: 0}, {url: 'https://mundus-education.com', slug: 'm', visits: 1}];
 
+// app.use(logger('dev'));
+
 app.get('/add/:string', (req, res) => {
-  res.send(`Creating ${req.params.string}`);
-  const len = 3;
   const random = Math.random().toString().substring(2, len + 2).split('').map(i => String.fromCharCode(parseInt(i) + 65)).join('');
-  urls.push({url: req.params.string, slug: random, visits: 0});
+  const item = {url: req.params.string, slug: random, visits: 0};
+  urls.push(item);
+  res.send(item);
 });
 
 app.get('/add/:string/:slug', (req, res) => {
-  res.send(`Creating ${req.params.string} | ${req.params.slug}`);
-  urls.push({url: req.params.string, slug: req.params.slug, visits: 0});
+  if(urls.find(item => item.slug === req.params.slug)){
+    res.status(400).send({message: 'slug exists'});
+    return
+  }
+  const item = {url: req.params.string, slug: req.params.slug, visits: 0}
+  urls.push(item);
+  res.send(item);
 });
 
 app.get('/', (req, res) => {
-  let out = 'Urls:<br><ul>';
-  out += urls.map(item => `<li>${item.slug}(${item.visits}): ${item.url}</li>`).join('');
-  out += '</ul>';
-  console.log(out);
-  res.send(out)
+  res.json(urls)
 });
 
 app.get('/:string', (req, res) => {
   const url = urls.find(obj => obj.slug == req.params.string);
   if(url){
     url.visits++;
-    res.send(`Redirecting to<br/><a href="${url.url}">Url: ${url.url}</a></br>Slug: ${url.slug}<br/>${url.visits}`);
+    res.redirect(url.url);
   } else {
-    res.send('Not found');
+    res.status(404);
+    res.send({message: 'not found'});
   }
 });
 
