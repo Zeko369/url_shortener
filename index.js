@@ -1,32 +1,34 @@
-const express = require('express')
+const express = require('express');
+var cors = require('cors')
 // const logger = require('morgan');
-const app = express()
-const port = 3000
+const app = express();
+const port = 5000;
 const len = 3; // hash length
 
 let urls = [{url: 'www.google.com', slug: 'g', visits: 0}, {url: 'https://mundus-education.com', slug: 'm', visits: 1}];
 
 // app.use(logger('dev'));
+app.use(cors());
 
 app.get('/add/:string', (req, res) => {
   const random = Math.random().toString().substring(2, len + 2).split('').map(i => String.fromCharCode(parseInt(i) + 65)).join('');
   const item = {url: req.params.string, slug: random, visits: 0};
   urls.push(item);
-  res.send(item);
+  res.send(urls);
 });
 
 app.get('/add/:string/:slug', (req, res) => {
   if(urls.find(item => item.slug === req.params.slug)){
     res.status(400).send({message: 'slug exists'});
-    return
+    return;
   }
-  const item = {url: req.params.string, slug: req.params.slug, visits: 0}
+  const item = { url: req.params.string, slug: req.params.slug, visits: 0 };
   urls.push(item);
-  res.send(item);
+  res.send(urls);
 });
 
 app.get('/', (req, res) => {
-  res.json(urls)
+  res.json(urls);
 });
 
 app.get('/:string', (req, res) => {
@@ -40,4 +42,4 @@ app.get('/:string', (req, res) => {
   }
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));
