@@ -1,0 +1,14 @@
+diff --git a/node_modules/qrcode.react/lib/index.js b/node_modules/qrcode.react/lib/index.js
+index 8be53c8..8111732 100644
+--- a/node_modules/qrcode.react/lib/index.js
++++ b/node_modules/qrcode.react/lib/index.js
+@@ -370,7 +370,8 @@ function (_React$PureComponent) {
+           onLoad: this.handleImageLoad,
+           ref: function ref(_ref) {
+             return _this2._image = _ref;
+-          }
++          },
++          origin: "anonymous"
+         });
+       }
+

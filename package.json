@@ -6,7 +6,8 @@
     "studio": "blitz db studio",
     "build": "blitz build",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
-    "test": "echo \"No tests yet\""
+    "test": "echo \"No tests yet\"",
+    "prepare": "patch-package"
   },
   "browserslist": [
     "defaults"
@@ -57,6 +58,8 @@
     "eslint-plugin-react-hooks": "3.0.0",
     "husky": "4.2.5",
     "lint-staged": "10.2.11",
+    "patch-package": "6.2.2",
+    "postinstall-prepare": "1.0.1",
     "prettier": "2.0.5",
     "pretty-quick": "2.0.1",
     "typescript": "3.9.6"

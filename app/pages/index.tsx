@@ -19,6 +19,10 @@ const Home: React.FC = () => {
   const download = () => {
     const canvas = document.getElementById("canvas")
 
+    document
+      .querySelectorAll("#qr > img")
+      .forEach((elem) => elem.setAttribute("origin", "anonymous"))
+
     if (canvas) {
       const pngUrl = (canvas as any)
         .toDataURL("image/png")
@@ -91,27 +95,29 @@ const Home: React.FC = () => {
           <Heading>Url shortener</Heading>
           <Input mb={3} value={url} onChange={(e) => setUrl(e.target.value)} />
           <Button onClick={() => setPanda((p) => !p)}>Toggle panda</Button>
-          <QRCode
-            id="canvas"
-            value={url}
-            size={400}
-            renderAs="canvas"
-            level="H"
-            imageSettings={
-              panda
-                ? {
-                    src:
-                      emojiUrl ||
-                      "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/whatsapp/238/panda-face_1f43c.png",
-                    x: null,
-                    y: null,
-                    height: 75,
-                    width: 75,
-                    excavate: true,
-                  }
-                : undefined
-            }
-          />
+          <div id="qr">
+            <QRCode
+              id="canvas"
+              value={url}
+              size={400}
+              renderAs="canvas"
+              level="H"
+              imageSettings={
+                panda
+                  ? {
+                      src:
+                        emojiUrl ||
+                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/whatsapp/238/panda-face_1f43c.png",
+                      x: null,
+                      y: null,
+                      height: 75,
+                      width: 75,
+                      excavate: true,
+                    }
+                  : undefined
+              }
+            />
+          </div>
           <br />
           <Button onClick={download}>Download</Button>
         </Stack>
