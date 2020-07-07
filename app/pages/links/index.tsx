@@ -15,7 +15,6 @@ import {
   Code,
   Flex,
   Button,
-  Input,
   FormControl,
   FormLabel,
   IconButton,
@@ -28,6 +27,7 @@ import ErrorBoundary from "app/components/ErrorBoundary"
 import useToggle from "app/hooks/useToggle"
 import createLink from "app/queries/links/createLink"
 import deleteLink from "app/queries/links/deleteLink"
+import Input from "app/components/Input"
 
 interface LinksListHandlers {
   refetch(data?: { throwOnError?: boolean }): Promise<Link[]>
@@ -93,15 +93,8 @@ const Links: BlitzPage = () => {
       {showNew && (
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing={3}>
-            <FormControl isRequired>
-              <FormLabel htmlFor="url">URL</FormLabel>
-              <Input id="url" name="url" ref={register()} isRequired placeholder="URL" />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="slug">Slug</FormLabel>
-              <Input id="slug" name="slug" ref={register()} placeholder="Slug" />
-            </FormControl>
-
+            <Input name="url" ref={register()} placeholder="URL" label="URL" isRequired />
+            <Input name="slug" ref={register()} placeholder="Slug" label="Slug" />
             <Button type="submit" isLoading={loading}>
               Add
             </Button>
