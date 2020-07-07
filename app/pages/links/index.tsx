@@ -15,8 +15,7 @@ import {
   Code,
   Flex,
   Button,
-  FormControl,
-  FormLabel,
+  Text,
   IconButton,
 } from "@chakra-ui/core"
 import { useForm } from "react-hook-form"
@@ -46,7 +45,9 @@ const LinksListComponent: ForwardRefRenderFunction<LinksListHandlers, {}> = (_pr
     }
   }
 
-  return (
+  return links.length === 0 ? (
+    <Text fontSize="1.25em">No links</Text>
+  ) : (
     <List>
       {links.map((link) => (
         <ListItem key={link.id}>
