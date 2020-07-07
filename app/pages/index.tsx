@@ -54,13 +54,18 @@ const Home: React.FC = () => {
   }
 
   const removeEmoji = useCallback((str: string) => str.replace(new RegExp(ranges, "g"), ""), [])
-  const isOnlyEmojis = useCallback((str) => !removeEmoji(str).length, [removeEmoji])
+  const isOnlyEmojis = useCallback((str) => true || !removeEmoji(str).length, [removeEmoji])
 
   const use = (url: string) => () => {
     setEmojiUrl(url)
     setPanda(true)
     setShowEmojis(false)
   }
+
+  const urlImg = `/api/imageProxy?url=${
+    emojiUrl ||
+    "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/whatsapp/238/panda-face_1f43c.png"
+  }`
 
   return (
     <>
@@ -105,9 +110,7 @@ const Home: React.FC = () => {
               imageSettings={
                 panda
                   ? {
-                      src:
-                        emojiUrl ||
-                        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/whatsapp/238/panda-face_1f43c.png",
+                      src: urlImg,
                       x: null,
                       y: null,
                       height: 75,
