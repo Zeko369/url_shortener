@@ -10,16 +10,16 @@ import {
 interface InputProps extends ChakraInputProps {
   label?: string
   error?: string
+  name: string
 }
 
 const Input: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (props, ref) => {
-  const { name, isInvalid, isRequired, error } = props
-  const { label = name } = props
+  const { name, isInvalid, isRequired, error, label, placeholder } = props
 
   return (
     <FormControl isInvalid={isInvalid} isRequired={isRequired}>
-      <FormLabel htmlFor={name}>{label}</FormLabel>
-      <ChakraInput {...props} id={name} ref={ref} />
+      <FormLabel htmlFor={name}>{label || name}</FormLabel>
+      <ChakraInput {...props} id={name} ref={ref} placeholder={placeholder || name} />
       <FormErrorMessage>{error}</FormErrorMessage>
     </FormControl>
   )
