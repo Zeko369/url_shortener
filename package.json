@@ -36,6 +36,7 @@
     "@types/request": "2.48.5",
     "blitz": "0.16.1",
     "cheerio": "1.0.0-rc.3",
+    "emoji-regex": "9.0.0",
     "emotion-theming": "10.0.27",
     "next": "9.4.4",
     "qrcode.react": "1.0.0",

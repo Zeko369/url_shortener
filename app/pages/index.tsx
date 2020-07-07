@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useCallback } from "react"
+import React, { useState } from "react"
 import QRCode from "qrcode.react"
 import { Button, Input, Stack, Heading, Text, SimpleGrid, Box } from "@chakra-ui/core"
+import emojiRegex from "emoji-regex"
 import handler from "app/queries/getEmoji"
 
 export interface Emoji {
@@ -8,12 +9,20 @@ export interface Emoji {
   url: string
 }
 
-const ranges = [
-  "\ud83c[\udf00-\udfff]", // U+1F300 to U+1F3FF
-  "\ud83d[\udc00-\ude4f]", // U+1F400 to U+1F64F
-  "\ud83d[\ude80-\udeff]", // U+1F680 to U+1F6FF
-  " ", // Also allow spaces
-].join("|")
+const getEmoji = (s: string) => {
+  const regex = emojiRegex()
+  const emoji = regex.exec(s)
+
+  if (emoji === null) {
+    return null
+  }
+
+  return emoji[0]
+}
+
+const isEmoji = (s: string) => {
+  return getEmoji(s) !== null
+}
 
 const Home: React.FC = () => {
   const download = () => {
@@ -47,14 +56,11 @@ const Home: React.FC = () => {
 
   const findEmoji = (e) => {
     setLoading(true)
-    handler(e)
+    handler(getEmoji(e))
       .then(setEmojis)
       .catch((err) => console.error(err))
       .finally(() => setLoading(false))
   }
-
-  const removeEmoji = useCallback((str: string) => str.replace(new RegExp(ranges, "g"), ""), [])
-  const isOnlyEmojis = useCallback((str) => true || !removeEmoji(str).length, [removeEmoji])
 
   const use = (url: string) => () => {
     setEmojiUrl(url)
@@ -62,24 +68,31 @@ const Home: React.FC = () => {
     setShowEmojis(false)
   }
 
+  const [customImage, setCustomImage] = useState<string>("")
+  const [aspect, setAspect] = useState<number>(1)
+  const [useCustomImage, setUseCustomImage] = useState<boolean>(false)
+
   const urlImg = `/api/imageProxy?url=${
-    emojiUrl ||
-    "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/whatsapp/238/panda-face_1f43c.png"
+    useCustomImage
+      ? customImage
+      : emojiUrl ||
+        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/whatsapp/238/panda-face_1f43c.png"
   }`
 
   return (
     <>
+      <Text>{String(isEmoji(emojiChar))}</Text>
       <Button onClick={() => setShowEmojis((e) => !e)}>Toggle</Button>
       {showEmojis ? (
         <Stack>
           <Input mb={3} value={emojiChar} onChange={(e) => setEmoji(e.target.value)} />
           <Button
             onClick={() => findEmoji(emojiChar)}
-            isDisabled={!isOnlyEmojis(emojiChar) || emojiChar.trim() === ""}
+            isDisabled={!isEmoji(emojiChar) || emojiChar.trim() === ""}
           >
             Find emoji
           </Button>
-          {!isOnlyEmojis(emojiChar) && <Text color="red.600">That's not an emoji</Text>}
+          {!isEmoji(emojiChar) && <Text color="red.600">That's not an emoji</Text>}
 
           {loading && <Heading>Loading...</Heading>}
 
@@ -100,6 +113,11 @@ const Home: React.FC = () => {
           <Heading>Url shortener</Heading>
           <Input mb={3} value={url} onChange={(e) => setUrl(e.target.value)} />
           <Button onClick={() => setPanda((p) => !p)}>Toggle panda</Button>
+          <Input mb={3} value={aspect} onChange={(e) => setAspect(e.target.value)} type="number" />
+          <Input mb={3} value={customImage} onChange={(e) => setCustomImage(e.target.value)} />
+          <Button onClick={() => setUseCustomImage((p) => !p)}>
+            {useCustomImage ? "Custom image" : "From emoji"}
+          </Button>
           <div id="qr">
             <QRCode
               id="canvas"
@@ -107,14 +125,15 @@ const Home: React.FC = () => {
               size={400}
               renderAs="canvas"
               level="H"
+              includeMargin
               imageSettings={
                 panda
                   ? {
                       src: urlImg,
                       x: null,
                       y: null,
-                      height: 75,
-                      width: 75,
+                      height: 60,
+                      width: 60 * (aspect || 1),
                       excavate: true,
                     }
                   : undefined
