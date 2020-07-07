@@ -72,12 +72,10 @@ const Home: React.FC = () => {
   const [aspect, setAspect] = useState<number>(1)
   const [useCustomImage, setUseCustomImage] = useState<boolean>(false)
 
-  const urlImg = `/api/imageProxy?url=${
-    useCustomImage
-      ? customImage
-      : emojiUrl ||
-        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/whatsapp/238/panda-face_1f43c.png"
-  }`
+  const urlImg =
+    customImage || emojiUrl
+      ? `/api/imageProxy?url=${useCustomImage ? customImage : emojiUrl}`
+      : "/panda.png"
 
   return (
     <>
