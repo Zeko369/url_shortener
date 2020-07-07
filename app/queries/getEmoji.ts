@@ -1,6 +1,6 @@
 import cheerio from "cheerio"
 import { Emoji } from "app/pages"
-// https://emojipedia.org/search/?q=asd
+
 const genUrl = (params) => `https://emojipedia.org/search/?${params}`
 
 const handler = async (emoji: string): Promise<Emoji[]> => {
@@ -11,8 +11,6 @@ const handler = async (emoji: string): Promise<Emoji[]> => {
   const html = await res.text()
 
   const dom = cheerio.load(html)
-
-  // return html
 
   return dom(".vendor-rollout-target")
     .map((index, elem) => {
