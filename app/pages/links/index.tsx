@@ -6,8 +6,7 @@ import React, {
   useRef,
   ForwardRefRenderFunction,
 } from "react"
-import { NextPage } from "next"
-import { useQuery } from "blitz"
+import { useQuery, BlitzPage } from "blitz"
 import {
   List,
   ListItem,
@@ -36,7 +35,6 @@ interface LinksListHandlers {
 
 const LinksListComponent: ForwardRefRenderFunction<LinksListHandlers, {}> = (_props, ref) => {
   const [links, { refetch }] = useQuery(getLinks, {})
-
   useImperativeHandle(ref, () => ({ refetch }))
 
   const remove = (id: number) => () => {
@@ -67,7 +65,7 @@ interface FormProps {
   slug?: string
 }
 
-const Links: NextPage = () => {
+const Links: BlitzPage = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [showNew, toggleNew] = useToggle()
   const { register, handleSubmit, reset } = useForm()
