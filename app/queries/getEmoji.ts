@@ -13,7 +13,7 @@ const handler = async (emoji: string): Promise<Emoji[]> => {
   const dom = cheerio.load(html)
 
   return dom(".vendor-rollout-target")
-    .map((index, elem) => {
+    .map((_, elem) => {
       const name = dom(".vendor-info > h2 > a", elem).text()
       const url = dom(".vendor-image > img", elem).attr("src")
 
