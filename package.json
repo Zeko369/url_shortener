@@ -6,7 +6,8 @@
     "start": "blitz start",
     "studio": "blitz db studio",
     "build": "blitz build",
-    "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx ."
+    "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
+    "test": "echo 'no tests'"
   },
   "dependencies": {
     "@chakra-ui/core": "0.8.0",
