@@ -13,7 +13,6 @@ import {
   Tab,
   TabPanels,
   TabPanel,
-  Flex,
 } from "@chakra-ui/core"
 import emojiRegex from "emoji-regex"
 import handler from "app/queries/getEmoji"
