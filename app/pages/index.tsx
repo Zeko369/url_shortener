@@ -90,7 +90,7 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <Heading>Url shortener</Heading>
+      <Heading>QR Code generator</Heading>
       <Tabs index={tabIndex} onChange={setTabIndex}>
         <TabList>
           <Tab>General</Tab>

@@ -3,15 +3,6 @@ import db, { Link } from "../../db"
 
 const saveClick = async (req: Request, link: Link) => {
   let ua = req.header("user-agent")
-
-  if (ua) {
-    try {
-      ua = ua.slice(ua.indexOf("(") + 1, ua.indexOf(")"))
-    } catch (err) {
-      console.error("Error parings UA")
-    }
-  }
-
   await db.click.create({ data: { Link: { connect: { id: link.id } }, ua } })
 }
 

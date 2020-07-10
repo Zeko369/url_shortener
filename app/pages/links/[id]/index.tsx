@@ -1,16 +1,23 @@
-import React, { Suspense } from "react"
+import React, { Suspense, useState } from "react"
 import { useQuery, BlitzPage, useParam } from "blitz"
-import { List, ListItem, Stack, Heading, Code, Flex, Text } from "@chakra-ui/core"
+import { List, ListItem, Stack, Heading, Code, Flex, Text, Button } from "@chakra-ui/core"
 
 import ErrorBoundary from "app/components/ErrorBoundary"
 import getLink from "app/queries/links/getLink"
 import Link from "app/components/Link"
 
+const parseUA = (ua: string) => {
+  if (ua.includes("(") && ua.includes("(")) {
+    return ua.slice(ua.indexOf("(") + 1, ua.indexOf(")"))
+  }
+  return ua
+}
+
 const LinkData: React.FC = () => {
+  const [showFull, setShowFull] = useState<boolean>(false)
+
   const id = useParam("id", "number")
   const [link] = useQuery(getLink, { id })
-
-  console.log(link.clicks)
 
   return (
     <Stack>
@@ -21,12 +28,18 @@ const LinkData: React.FC = () => {
           {link.url}
         </Link>
       </Text>
-      <Heading size="md">Clicks:</Heading>
+      <Stack isInline align="center">
+        <Heading size="md">Clicks:</Heading>
+        <Button size="xs" onClick={() => setShowFull((v) => !v)}>
+          {showFull ? "Expand full UA" : "Hide full UA"}
+        </Button>
+      </Stack>
       {link.clicks.length > 0 ? (
         <List>
           {link.clicks.map((click) => (
             <ListItem>
-              {new Date(click.createdAt).toLocaleString()} from {click.ua}
+              <code>{new Date(click.createdAt).toLocaleString()}</code>
+              {` => ${showFull ? click.ua : parseUA(click.ua)}`}
             </ListItem>
           ))}
         </List>
