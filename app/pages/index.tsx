@@ -100,7 +100,11 @@ const Home: React.FC = () => {
         <TabPanels mt={3}>
           <TabPanel>
             <Stack spacing={3}>
-              <Input name="URL" value={url} onChange={(e) => setUrl(e.target.value)} />
+              <Input
+                name="URL"
+                value={url}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
+              />
               <Stack spacing={3} isInline>
                 <Button onClick={toggleEmoji} variantColor="green">
                   Toggle emoji

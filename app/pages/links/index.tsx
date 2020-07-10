@@ -45,7 +45,6 @@ const LinksListComponent: ForwardRefRenderFunction<LinksListHandlers, {}> = (_pr
 
   const remove = (id: number) => () => {
     if (window.confirm("Can I delete this")) {
-      // mutate((current) => current.filter((l) => l.id !== id))
       deleteLink(id)
         .then(() => refetch())
         .catch((err) => console.error(err))
@@ -96,15 +95,17 @@ const Links: BlitzPage = () => {
 
   const ref = useRef<LinksListHandlers | null>(null)
 
-  const onSubmit = ({ url, slug }: FormProps) => {
+  const onSubmit = async ({ url, slug }: FormProps) => {
     setLoading(true)
-    createLink({ url, slug })
-      .then(() => {
-        reset()
-        ref.current.refetch()
-      })
-      .catch((err) => console.error(err))
-      .finally(() => setLoading(false))
+    try {
+      await createLink({ url, slug })
+      reset()
+      await ref.current.refetch()
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (

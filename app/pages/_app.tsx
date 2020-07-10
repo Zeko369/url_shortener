@@ -1,8 +1,8 @@
-import { Head } from "blitz"
+import { Head, AppProps } from "blitz"
 import { ThemeProvider, CSSReset, ColorModeProvider } from "@chakra-ui/core"
 import Layout from "app/layouts"
 
-export default function MyApp({ Component, pageProps }) {
+const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <ThemeProvider>
       <ColorModeProvider>
@@ -17,3 +17,5 @@ export default function MyApp({ Component, pageProps }) {
     </ThemeProvider>
   )
 }
+
+export default MyApp
