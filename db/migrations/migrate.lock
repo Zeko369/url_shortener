@@ -1,3 +1,4 @@
 # Prisma Migrate lockfile v1
 
 20200705000543-add-links
+20200710235535-make-slug-uniq
