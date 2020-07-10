@@ -18,6 +18,8 @@ import handler from "app/queries/getEmoji"
 import Input from "app/components/Input"
 import useToggle from "app/hooks/useToggle"
 import { QrCode, download } from "app/modules/qr"
+import { useRouterQuery } from "blitz"
+import config from "config"
 
 export interface Emoji {
   name: string
@@ -42,7 +44,13 @@ const isEmoji = (s: string) => {
 const Home: React.FC = () => {
   const [tabIndex, setTabIndex] = useState<number>(0)
 
-  const [url, setUrl] = useState<string>("https://zekan.tk/t3")
+  const { slug } = useRouterQuery()
+
+  console.log(config.baseUrl)
+
+  const urlQuery = slug && `${config.baseUrl}/${slug}`
+
+  const [url, setUrl] = useState<string>(urlQuery || "https://zekan.tk/t3")
   const [emojiChar, setEmoji] = useState<string>("🐼")
   const [emojis, setEmojis] = useState<Emoji[]>([])
   const [loading, setLoading] = useState<boolean>(false)

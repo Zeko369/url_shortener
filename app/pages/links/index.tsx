@@ -27,7 +27,7 @@ import useToggle from "app/hooks/useToggle"
 import createLink from "app/queries/links/createLink"
 import deleteLink from "app/queries/links/deleteLink"
 import Input from "app/components/Input"
-import ChakraLink from "app/components/Link"
+import ChakraLink, { LinkButton } from "app/components/Link"
 
 type LinksDB = (Link & {
   clicks: {
@@ -58,11 +58,24 @@ const LinksListComponent: ForwardRefRenderFunction<LinksListHandlers, {}> = (_pr
     <List>
       {links.map((link) => (
         <ListItem key={link.id}>
-          <ChakraLink href="/links/[id]" as={`/links/${link.id}`}>
-            {link.slug}
-          </ChakraLink>{" "}
-          ={">"} {link.url} ({link.clicks.length})
-          <IconButton icon="delete" onClick={remove(link.id)} aria-label="delete" />
+          <Stack isInline>
+            <Text>
+              <ChakraLink href="/links/[id]" as={`/links/${link.id}`}>
+                {link.slug}
+              </ChakraLink>{" "}
+              ={">"} {link.url} ({link.clicks.length})
+            </Text>
+            <IconButton
+              variantColor="red"
+              icon="delete"
+              onClick={remove(link.id)}
+              aria-label="delete"
+              mb={2}
+            />
+            <LinkButton variantColor="green" href={`/?slug=${link.slug}`}>
+              QR
+            </LinkButton>
+          </Stack>
         </ListItem>
       ))}
     </List>
