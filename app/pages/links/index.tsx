@@ -27,9 +27,16 @@ import useToggle from "app/hooks/useToggle"
 import createLink from "app/queries/links/createLink"
 import deleteLink from "app/queries/links/deleteLink"
 import Input from "app/components/Input"
+import ChakraLink from "app/components/Link"
+
+type LinksDB = (Link & {
+  clicks: {
+    id: number
+  }[]
+})[]
 
 interface LinksListHandlers {
-  refetch(data?: { throwOnError?: boolean }): Promise<Link[]>
+  refetch(data?: { throwOnError?: boolean }): Promise<LinksDB>
 }
 
 const LinksListComponent: ForwardRefRenderFunction<LinksListHandlers, {}> = (_props, ref) => {
@@ -51,7 +58,10 @@ const LinksListComponent: ForwardRefRenderFunction<LinksListHandlers, {}> = (_pr
     <List>
       {links.map((link) => (
         <ListItem key={link.id}>
-          {link.slug} ={">"} {link.url}
+          <ChakraLink href="/links/[id]" as={`/links/${link.id}`}>
+            {link.slug}
+          </ChakraLink>{" "}
+          ={">"} {link.url} ({link.clicks.length})
           <IconButton icon="delete" onClick={remove(link.id)} aria-label="delete" />
         </ListItem>
       ))}
