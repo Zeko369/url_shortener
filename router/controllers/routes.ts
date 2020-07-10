@@ -1,5 +1,19 @@
 import { Request, Response } from "express"
-import db from "../../db"
+import db, { Link } from "../../db"
+
+const saveClick = async (req: Request, link: Link) => {
+  let ua = req.header("user-agent")
+
+  if (ua) {
+    try {
+      ua = ua.slice(ua.indexOf("(") + 1, ua.indexOf(")"))
+    } catch (err) {
+      console.error("Error parings UA")
+    }
+  }
+
+  await db.click.create({ data: { Link: { connect: { id: link.id } }, ua } })
+}
 
 const routes = async (req: Request, res: Response) => {
   let slug = req.params[0] as string
@@ -19,7 +33,7 @@ const routes = async (req: Request, res: Response) => {
 
   if (link) {
     res.redirect(link.url)
-    await db.click.create({ data: { Link: { connect: { id: link.id } } } })
+    await saveClick(req, link)
   } else {
     return res.send(`This slug doesn't exist`)
   }

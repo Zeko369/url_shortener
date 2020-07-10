@@ -25,7 +25,9 @@ const LinkData: React.FC = () => {
       {link.clicks.length > 0 ? (
         <List>
           {link.clicks.map((click) => (
-            <ListItem>{new Date(click.createdAt).toLocaleString()}</ListItem>
+            <ListItem>
+              {new Date(click.createdAt).toLocaleString()} from {click.ua}
+            </ListItem>
           ))}
         </List>
       ) : (
