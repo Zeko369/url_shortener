@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useState } from "react"
-import QRCode from "qrcode.react"
 import {
   Button,
   Stack,
@@ -18,6 +17,7 @@ import emojiRegex from "emoji-regex"
 import handler from "app/queries/getEmoji"
 import Input from "app/components/Input"
 import useToggle from "app/hooks/useToggle"
+import { QrCode, download } from "app/modules/qr"
 
 export interface Emoji {
   name: string
@@ -37,21 +37,6 @@ const getEmoji = (s: string) => {
 
 const isEmoji = (s: string) => {
   return getEmoji(s) !== null
-}
-
-const download = (slug: string) => {
-  const canvas: HTMLCanvasElement | null = document.querySelector("#qr > canvas")
-
-  if (canvas) {
-    const pngUrl = canvas.toDataURL("image/octet-stream")
-    const downloadLink = document.createElement("a")
-    downloadLink.href = pngUrl
-    downloadLink.download = `qr-${slug}.png`
-
-    document.body.appendChild(downloadLink)
-    downloadLink.click()
-    document.body.removeChild(downloadLink)
-  }
 }
 
 const Home: React.FC = () => {
@@ -135,26 +120,7 @@ const Home: React.FC = () => {
                   </Button>
                 </Stack>
               )}
-              <div id="qr">
-                <QRCode
-                  value={url}
-                  size={400}
-                  level="H"
-                  includeMargin
-                  imageSettings={
-                    showEmoji
-                      ? {
-                          src: urlImg(),
-                          x: null,
-                          y: null,
-                          height: 60,
-                          width: 60 * (aspect || 1),
-                          excavate: true,
-                        }
-                      : undefined
-                  }
-                />
-              </div>
+              <QrCode data={url} showEmoji={showEmoji} aspect={aspect} emojiUrl={urlImg()} />
               <br />
               <Button onClick={() => download("Slug")} variantColor="blue">
                 Download
