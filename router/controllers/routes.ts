@@ -19,9 +19,10 @@ const routes = async (req: Request, res: Response) => {
 
   if (link) {
     res.redirect(link.url)
+    await db.click.create({ data: { Link: { connect: { id: link.id } } } })
+  } else {
+    return res.send(`This slug doesn't exist`)
   }
-
-  return res.send(`This slug doesn't exist`)
 }
 
 export default routes
