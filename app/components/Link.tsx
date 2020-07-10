@@ -10,11 +10,32 @@ interface LinkProps extends Omit<ChakraLinkProps, "as"> {
   as?: string
 }
 
-const Link: React.FC<LinkProps> = ({ as, href, children, ...props }) => {
+const LinkingComponent: React.FC<{ as?: string; href: string }> = ({
+  as,
+  href,
+  children,
+  ...props
+}) => {
+  if (!as || href.startsWith("http")) {
+    return (
+      <a href={href} {...props}>
+        {children}
+      </a>
+    )
+  }
+
   return (
     <NextLink href={href} as={as}>
-      <ChakraLink {...props}>{children}</ChakraLink>
+      {children}
     </NextLink>
+  )
+}
+
+const Link: React.FC<LinkProps> = ({ as, href, children, ...props }) => {
+  return (
+    <LinkingComponent href={href} as={as} {...props}>
+      <ChakraLink {...props}>{children}</ChakraLink>
+    </LinkingComponent>
   )
 }
 
