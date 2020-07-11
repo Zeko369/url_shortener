@@ -9,7 +9,8 @@
     "router:start": "ts-node --project router/tsconfig.json router/index.ts",
     "studio": "blitz db studio",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
-    "test": "echo 'no tests'"
+    "test": "echo 'no tests'",
+    "deploy": "pm2 deploy production update"
   },
   "dependencies": {
     "@chakra-ui/core": "0.8.0",
