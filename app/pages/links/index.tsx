@@ -16,6 +16,7 @@ import {
   Flex,
   Button,
   Text,
+  Box,
   IconButton,
   useClipboard,
   IconButtonProps,
@@ -141,15 +142,17 @@ const Links: BlitzPage = () => {
       </Flex>
 
       {showNew && (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Stack spacing={3}>
-            <Input name="url" ref={register()} placeholder="URL" label="URL" isRequired />
-            <Input name="slug" ref={register()} placeholder="Slug" label="Slug" />
-            <Button type="submit" isLoading={loading}>
-              Add
-            </Button>
-          </Stack>
-        </form>
+        <Box mb={3}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Stack spacing={3}>
+              <Input name="url" ref={register()} placeholder="URL" label="URL" isRequired />
+              <Input name="slug" ref={register()} placeholder="Slug" label="Slug" />
+              <Button type="submit" isLoading={loading}>
+                Add
+              </Button>
+            </Stack>
+          </form>
+        </Box>
       )}
 
       <ErrorBoundary
