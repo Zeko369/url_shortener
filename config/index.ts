@@ -29,7 +29,7 @@ interface Config {
 
 const config: Record<ENVs, Config> = {
   production: {
-    baseUrl: "https://s.zekan.tk",
+    baseUrl: "https://zekan.ml",
   },
   development: {
     baseUrl: `http://192.168.1.2:3001`,

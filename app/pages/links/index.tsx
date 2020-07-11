@@ -17,6 +17,7 @@ import {
   Button,
   Text,
   IconButton,
+  useClipboard,
 } from "@chakra-ui/core"
 import { useForm } from "react-hook-form"
 
@@ -28,15 +29,44 @@ import createLink from "app/queries/links/createLink"
 import deleteLink from "app/queries/links/deleteLink"
 import Input from "app/components/Input"
 import ChakraLink, { LinkButton } from "app/components/Link"
+import config from "config"
 
-type LinksDB = (Link & {
+type LinkDB = Link & {
   clicks: {
     id: number
   }[]
-})[]
+}
+type LinksDB = LinkDB[]
 
 interface LinksListHandlers {
   refetch(data?: { throwOnError?: boolean }): Promise<LinksDB>
+}
+
+interface LinkItemProps {
+  link: LinkDB
+  remove: () => void
+}
+
+const LinkItem: React.FC<LinkItemProps> = ({ link, remove }) => {
+  const { onCopy } = useClipboard(`${config.baseUrl}/${link.slug}`)
+
+  return (
+    <Stack isInline>
+      <Text>
+        <ChakraLink href="/links/[id]" as={`/links/${link.id}`}>
+          {link.slug}
+        </ChakraLink>{" "}
+        ={">"} {link.url} ({link.clicks.length})
+      </Text>
+      <IconButton variantColor="red" icon="delete" onClick={remove} aria-label="delete" mb={2} />
+      <LinkButton variantColor="green" href={`/?slug=${link.slug}`}>
+        QR
+      </LinkButton>
+      <Button variantColor="orange" onClick={onCopy}>
+        Copy to clipboard
+      </Button>
+    </Stack>
+  )
 }
 
 const LinksListComponent: ForwardRefRenderFunction<LinksListHandlers, {}> = (_props, ref) => {
@@ -57,24 +87,7 @@ const LinksListComponent: ForwardRefRenderFunction<LinksListHandlers, {}> = (_pr
     <List>
       {links.map((link) => (
         <ListItem key={link.id}>
-          <Stack isInline>
-            <Text>
-              <ChakraLink href="/links/[id]" as={`/links/${link.id}`}>
-                {link.slug}
-              </ChakraLink>{" "}
-              ={">"} {link.url} ({link.clicks.length})
-            </Text>
-            <IconButton
-              variantColor="red"
-              icon="delete"
-              onClick={remove(link.id)}
-              aria-label="delete"
-              mb={2}
-            />
-            <LinkButton variantColor="green" href={`/?slug=${link.slug}`}>
-              QR
-            </LinkButton>
-          </Stack>
+          <LinkItem link={link} remove={remove(link.id)} />
         </ListItem>
       ))}
     </List>
