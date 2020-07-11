@@ -20,11 +20,7 @@ import useToggle from "app/hooks/useToggle"
 import { QrCode, download } from "app/modules/qr"
 import { useRouterQuery } from "blitz"
 import config from "config"
-
-export interface Emoji {
-  name: string
-  url: string
-}
+import { Emoji } from "ts/types"
 
 const getEmoji = (s: string) => {
   const regex = emojiRegex()

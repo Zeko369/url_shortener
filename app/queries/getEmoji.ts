@@ -1,13 +1,13 @@
 import cheerio from "cheerio"
-import { Emoji } from "app/pages"
+import { Emoji } from "ts/types"
 
-const genUrl = (params) => `https://emojipedia.org/search/?${params}`
+const genUrl = (params: string) => `https://emojipedia.org/search/?${params}`
 
 const handler = async (emoji: string): Promise<Emoji[]> => {
   const urlParams = new URLSearchParams()
   urlParams.set("q", emoji)
 
-  const res = await fetch(genUrl(urlParams))
+  const res = await fetch(genUrl(urlParams.toString()))
   const html = await res.text()
 
   const dom = cheerio.load(html)
