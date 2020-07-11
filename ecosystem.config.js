@@ -16,7 +16,7 @@ module.exports = {
       host: "c2.zekan.tk",
       ref: "origin/master",
       repo: "git@github.com:Zeko369/url_shortener.git",
-      path: "url",
+      path: "/home/zeko/url",
       "pre-deploy-local": "",
       "post-deploy": "yarn && pm2 reload ecosystem.config.js --env production",
       "pre-setup": "",
