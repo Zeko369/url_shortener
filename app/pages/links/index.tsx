@@ -18,6 +18,7 @@ import {
   Text,
   IconButton,
   useClipboard,
+  IconButtonProps,
 } from "@chakra-ui/core"
 import { useForm } from "react-hook-form"
 
@@ -28,7 +29,7 @@ import useToggle from "app/hooks/useToggle"
 import createLink from "app/queries/links/createLink"
 import deleteLink from "app/queries/links/deleteLink"
 import Input from "app/components/Input"
-import ChakraLink, { LinkButton } from "app/components/Link"
+import ChakraLink, { LinkIconButton } from "app/components/Link"
 import config from "config"
 
 type LinkDB = Link & {
@@ -47,24 +48,35 @@ interface LinkItemProps {
   remove: () => void
 }
 
+const buttonProps = (icon: string): IconButtonProps => ({
+  size: "sm",
+  "aria-label": icon,
+  icon: icon as any,
+})
+
 const LinkItem: React.FC<LinkItemProps> = ({ link, remove }) => {
   const { onCopy } = useClipboard(`${config.baseUrl}/${link.slug}`)
 
   return (
     <Stack isInline>
-      <Text>
-        <ChakraLink href="/links/[id]" as={`/links/${link.id}`}>
-          {link.slug}
-        </ChakraLink>{" "}
-        ={">"} {link.url} ({link.clicks.length})
-      </Text>
-      <IconButton variantColor="red" icon="delete" onClick={remove} aria-label="delete" mb={2} />
-      <LinkButton variantColor="green" href={`/?slug=${link.slug}`}>
-        QR
-      </LinkButton>
-      <Button variantColor="orange" onClick={onCopy}>
-        Copy to clipboard
-      </Button>
+      <Flex justify="space-between" w="100%" mb={2}>
+        <Text>
+          <ChakraLink href="/links/[id]" as={`/links/${link.id}`}>
+            {link.slug}
+          </ChakraLink>{" "}
+          ={">"} {link.url} ({link.clicks.length})
+        </Text>
+        <Stack isInline>
+          <IconButton {...buttonProps("delete")} variantColor="red" onClick={remove} />
+          <LinkIconButton
+            {...buttonProps("qrcode")}
+            variantColor="green"
+            href={`/?slug=${link.slug}`}
+            as={`/?slug=${link.slug}`}
+          />
+          <IconButton {...buttonProps("copy")} variantColor="orange" onClick={onCopy} />
+        </Stack>
+      </Flex>
     </Stack>
   )
 }
