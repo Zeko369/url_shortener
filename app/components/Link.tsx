@@ -3,10 +3,12 @@ import {
   LinkProps as ChakraLinkProps,
   Button,
   ButtonProps as ChakraButtonProps,
+  IconButton,
+  IconButtonProps as ChakraButtonIconProps,
 } from "@chakra-ui/core"
 import { Link as NextLink } from "blitz"
 
-interface LinkProps extends Omit<ChakraLinkProps, "as"> {
+export interface LinkProps extends Omit<ChakraLinkProps, "as"> {
   as?: string
 }
 
@@ -39,7 +41,7 @@ const Link: React.FC<LinkProps> = ({ as, href, children, ...props }) => {
   )
 }
 
-interface LinkButtonProps extends Omit<ChakraButtonProps, "as"> {
+export interface LinkButtonProps extends Omit<ChakraButtonProps, "as"> {
   href: string
   as?: string
 }
@@ -52,5 +54,18 @@ const LinkButton: React.FC<LinkButtonProps> = ({ as, href, children, ...props })
   )
 }
 
+export interface LinkButtonIconProps extends Omit<ChakraButtonIconProps, "as"> {
+  href: string
+  as?: string
+}
+
+const LinkIconButton: React.FC<LinkButtonIconProps> = ({ as, href, children, ...props }) => {
+  return (
+    <NextLink href={href} as={as}>
+      <IconButton {...props}>{children}</IconButton>
+    </NextLink>
+  )
+}
+
 export default Link
-export { LinkButton }
+export { LinkButton, LinkIconButton }
