@@ -6,4 +6,5 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 cp ~/envs/.url .env
 
 yarn
+yarn blitz db migrate
 pm2 reload ecosystem.config.js --env production
