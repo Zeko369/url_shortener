@@ -39,10 +39,7 @@ const isEmoji = (s: string) => {
 
 const Home: React.FC = () => {
   const [tabIndex, setTabIndex] = useState<number>(0)
-
   const { slug } = useRouterQuery()
-
-  console.log(config.baseUrl)
 
   const urlQuery = slug && `${config.baseUrl}/${slug}`
 
@@ -103,7 +100,7 @@ const Home: React.FC = () => {
               />
               <Stack spacing={3} isInline>
                 <Button onClick={toggleEmoji} variantColor="green">
-                  Toggle emoji
+                  {showEmoji ? "Hide" : "Show"} emoji
                 </Button>
                 <Button onClick={toggleCustomSection}>
                   {customSection ? "Hide" : "Show"} custom section
