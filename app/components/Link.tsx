@@ -18,7 +18,7 @@ const LinkingComponent: React.FC<{ as?: string; href: string }> = ({
   children,
   ...props
 }) => {
-  if (!as || href.startsWith("http")) {
+  if (!as && href.startsWith("http")) {
     return (
       <a href={href} {...props}>
         {children}

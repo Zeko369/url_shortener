@@ -19,12 +19,8 @@ const Layout: React.FC = ({ children }) => {
               URL shortener
             </Heading>
           </Link>
-          <NavLink href="/" as="/links">
-            Home
-          </NavLink>
-          <NavLink href="/links" as="/links">
-            Links
-          </NavLink>
+          <NavLink href="/">Home</NavLink>
+          <NavLink href="/links">Links</NavLink>
         </Flex>
         <Button onClick={toggleColorMode}>Toggle {colorMode === "light" ? "Dark" : "Light"}</Button>
       </Flex>

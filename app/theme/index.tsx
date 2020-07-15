@@ -1,12 +1,10 @@
-import { theme } from "@chakra-ui/core"
+import { theme, DefaultTheme } from "@chakra-ui/core"
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default {
+const myTheme: DefaultTheme = {
   ...theme,
   icons: {
     ...theme.icons,
     qrcode: {
-      // The <path/> or <g> element for the svg. Note the use of  `fill=currentColor`
       path: (
         <>
           <g>
@@ -33,3 +31,5 @@ export default {
     },
   },
 }
+
+export default myTheme
