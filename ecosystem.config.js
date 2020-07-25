@@ -17,9 +17,7 @@ module.exports = {
       ref: "origin/master",
       repo: "git@github.com:Zeko369/url_shortener.git",
       path: "/home/zeko/url",
-      "pre-deploy-local": "",
       "post-deploy": "./scripts/postdeploy.sh",
-      "pre-setup": "",
     },
   },
 }
