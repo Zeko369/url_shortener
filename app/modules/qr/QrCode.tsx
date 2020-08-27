@@ -7,9 +7,17 @@ export interface QrCodeProps {
   showEmoji?: boolean
   aspect?: number
   invert: boolean
+  transparent: boolean
 }
 
-export const QrCode: React.FC<QrCodeProps> = ({ data, invert, showEmoji, emojiUrl, aspect }) => {
+export const QrCode: React.FC<QrCodeProps> = ({
+  data,
+  invert,
+  transparent,
+  showEmoji,
+  emojiUrl,
+  aspect,
+}) => {
   return (
     <div id="qr">
       <QRCode
@@ -17,7 +25,7 @@ export const QrCode: React.FC<QrCodeProps> = ({ data, invert, showEmoji, emojiUr
         size={400}
         level="H"
         includeMargin
-        bgColor={invert ? "#000" : "#fff"}
+        bgColor={transparent ? "#0000" : invert ? "#000" : "#fff"}
         fgColor={!invert ? "#000" : "#fff"}
         imageSettings={
           showEmoji
