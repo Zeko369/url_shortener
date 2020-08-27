@@ -52,6 +52,7 @@ const Home: React.FC = () => {
   const [showEmoji, toggleEmoji, setShowEmoji] = useToggle()
   const [customSection, toggleCustomSection] = useToggle()
   const [useCustomImage, toggleCustomImage] = useToggle()
+  const [invert, toggleInvert] = useToggle()
 
   const findEmoji = (e) => {
     setLoading(true)
@@ -105,6 +106,7 @@ const Home: React.FC = () => {
                 <Button onClick={toggleCustomSection}>
                   {customSection ? "Hide" : "Show"} custom section
                 </Button>
+                <Button onClick={toggleInvert}>{invert ? "Normal" : "Invert"}</Button>
               </Stack>
 
               {customSection && (
@@ -125,7 +127,13 @@ const Home: React.FC = () => {
                   </Button>
                 </Stack>
               )}
-              <QrCode data={url} showEmoji={showEmoji} aspect={aspect} emojiUrl={urlImg()} />
+              <QrCode
+                data={url}
+                showEmoji={showEmoji}
+                aspect={aspect}
+                emojiUrl={urlImg()}
+                invert={invert}
+              />
               <br />
               <Button onClick={() => download("Slug")} variantColor="blue">
                 Download
