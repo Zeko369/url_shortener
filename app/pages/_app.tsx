@@ -10,10 +10,10 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
         <Head>
           <title>URL shortener</title>
         </Head>
-        <CSSReset />
         <Layout>
           <Component {...pageProps} />
         </Layout>
+        <CSSReset />
       </ColorModeProvider>
     </ThemeProvider>
   )

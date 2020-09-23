@@ -1,7 +1,7 @@
 import { Box, Flex, useColorMode, Button, Heading } from "@chakra-ui/core"
-import Link from "app/components/Link"
+import { Link } from "chakra-next-link"
 
-const NavLink = ({ children, ...props }) => (
+const NavLink: React.FC<Record<string, unknown> & { href: string }> = ({ children, ...props }) => (
   <Link px={2} color="white" {...props}>
     {children}
   </Link>

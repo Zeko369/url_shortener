@@ -7,6 +7,7 @@ import React, {
   ForwardRefRenderFunction,
 } from "react"
 import { useQuery, BlitzPage } from "blitz"
+import { Link as ChakraLink, LinkIconButton } from "chakra-next-link"
 import {
   List,
   ListItem,
@@ -30,7 +31,6 @@ import useToggle from "app/hooks/useToggle"
 import createLink from "app/queries/links/createLink"
 import deleteLink from "app/queries/links/deleteLink"
 import Input from "app/components/Input"
-import ChakraLink, { LinkIconButton } from "app/components/Link"
 import config from "config"
 
 type LinkDB = Link & {

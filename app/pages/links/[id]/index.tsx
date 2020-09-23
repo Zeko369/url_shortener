@@ -1,10 +1,10 @@
 import React, { Suspense, useState } from "react"
 import { useQuery, BlitzPage, useParam } from "blitz"
 import { List, ListItem, Stack, Heading, Code, Flex, Text, Button } from "@chakra-ui/core"
+import { Link } from "chakra-next-link"
 
 import ErrorBoundary from "app/components/ErrorBoundary"
 import getLink from "app/queries/links/getLink"
-import Link from "app/components/Link"
 
 const parseUA = (ua: string) => {
   if (ua.includes("(") && ua.includes("(")) {
