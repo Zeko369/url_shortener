@@ -62,7 +62,7 @@ const LinkItem: React.FC<LinkItemProps> = ({ link, remove }) => {
     <Stack isInline>
       <Flex justify="space-between" w="100%" mb={2}>
         <Text>
-          <ChakraLink href="/links/[id]" as={`/links/${link.id}`}>
+          <ChakraLink href="/links/[id]" nextAs={`/links/${link.id}`}>
             {link.slug}
           </ChakraLink>{" "}
           ={">"} {link.url} ({link.clicks.length})
@@ -73,7 +73,7 @@ const LinkItem: React.FC<LinkItemProps> = ({ link, remove }) => {
             {...buttonProps("qrcode")}
             variantColor="green"
             href={`/?slug=${link.slug}`}
-            as={`/?slug=${link.slug}`}
+            nextAs={`/?slug=${link.slug}`}
           />
           <IconButton {...buttonProps("copy")} variantColor="orange" onClick={onCopy} />
         </Stack>
